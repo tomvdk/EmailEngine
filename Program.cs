@@ -21,7 +21,7 @@ namespace EmailEngine
 
                 SmtpClient client = new SmtpClient();
 
-                var interval = 2000; // 1000 ms dela
+                var interval = 2000; // 2000 ms delay
                 await mailMessages.ForEachWithDelay(mailMessage => Task.Run(() =>
                 {
                     Console.WriteLine("sending " +mailMessage + " @ " + DateTime.Now);
