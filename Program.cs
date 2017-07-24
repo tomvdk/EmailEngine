@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using EmailEngine.Reader;
+using EmailEngine.Email;
+using System.Net.Mail;
 
 namespace EmailEngine
 {
@@ -10,6 +11,27 @@ namespace EmailEngine
     {
         static void Main(string[] args)
         {
+            var inputRecordReader = new InputRecordReader(@"inputdata.csv");
+            var emailComposer = new EmailComposer("tvandekerkhof@hotmail.com");
+            Task.Run(async () =>
+            {
+                IList<InputRecord> inputRecords = inputRecordReader.ReadAllInputRecords();
+
+                ICollection<MailMessage> mailMessages = emailComposer.ComposeAll(inputRecords);
+
+                SmtpClient client = new SmtpClient();
+
+                var interval = 2000; // 1000 ms dela
+                await mailMessages.ForEachWithDelay(mailMessage => Task.Run(() =>
+                {
+                    Console.WriteLine("sending " +mailMessage + " @ " + DateTime.Now);
+                    client.Send(mailMessage);
+                    Console.WriteLine(mailMessage + "sent @ " + DateTime.Now);
+                }
+                ), interval);
+            }).GetAwaiter().GetResult();
+
+            Console.ReadLine();
         }
     }
 }
