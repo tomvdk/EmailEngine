@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -44,8 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AppSettingsProvider.cs" />
+    <Compile Include="Common\IAppSettingsProvider.cs" />
     <Compile Include="Email\EmailComposer.cs" />
+    <Compile Include="Email\AsyncEmailSender.cs" />
     <Compile Include="Email\IEmailComposer.cs" />
+    <Compile Include="Email\IAsyncEmailSender.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="InputRecord.cs" />
     <Compile Include="Program.cs" />
